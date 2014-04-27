@@ -1,17 +1,16 @@
 
 ###Directory where the dataset are located
 
-dirtest="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\test\\X_test.txt";
-dirtrain="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\train\\X_train.txt";
+dirtest=".//test//X_test.txt";
+dirtrain=".//train//X_train.txt";
 
-ytrain="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\train\\y_train.txt";
-ytest="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\test\\y_test.txt";
+ytrain=".//train//y_train.txt";
+ytest=".//test//y_test.txt";
 
-subjecttrain="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\train\\subject_train.txt"
-subjecttest="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\test\\subject_test.txt"
+subjecttrain=".//subject_train.txt"
+subjecttest=".//test//subject_test.txt"
 
-
-feat="C:\\Users\\TM\\Google Drive\\Coursera\\JH 3 Getting and Cleaning Data\\assignments\\W2\\peer assignment\\UCI HAR Dataset\\features.txt"
+feat=".//features.txt"
 
 
 #Loading of the dataset into dataframes
@@ -27,10 +26,11 @@ subjtest=read.table(subjecttest);
 
 Feat=read.table(feat);
 
-## Merging the subject and Xtrain dataframe by column into a work 1 dataframe
+## Merging the subject and Xtrain dataframe by column into work 1,2 dataframe
 w1=data.frame(subjtrain,Ytrain,Xtrain)
 w2=data.frame(subjtest,Ytest,Xtest)
-## Merging train (w1) and tets dataset (w2) into a work directory
+
+## Merging train (w1) and tets dataset (w2) into a work dataframe w
 w=rbind(w1,w2)
 
 
@@ -38,10 +38,12 @@ w=rbind(w1,w2)
 colu=Feat[,2];
 
 ## changing the columns header into the Work Dataframe
-v=c("subject","activity");
-c=as.character(colu);
-f=c(v,c);
-names(w)<- t(f)
+v=c("subject","activity"); ## adding the 2 column subject and activity
+c=as.character(colu); ## coercing the vector colu into a character vector
+f=c(v,c); ## creating the final column name vector f
+
+names(w)<- t(f) ## assigning the columns names of dataframe w to vctor f
+
 ### changing the activity code by the activity name
 #1 WALKING
 #2 WALKING_UPSTAIRS
@@ -58,11 +60,28 @@ w$activity[w$activity==5]="STANDING";
 w$activity[w$activity==6]="LAYING";
 
 #list of column to retrieve using a grep - 
-colret1=colnames(w)[grepl('-mean()',colnames(w))]
-colret2=colnames(w)[grepl('-std()',colnames(w))]
+colret1=colnames(w)[grepl('-mean()',colnames(w))] ## all columns with mean in their names
+colret2=colnames(w)[grepl('-std()',colnames(w))] ## all columns with std in their names
 
-cret=c("subject","activity",colret1,colret2);
+cret=c("subject","activity",colret1,colret2); ## creating the vector with all the columns names we want to retrieve
 ## subset of the Dataframe with only these columns
+
+
+##### create the tidy dataset       
 
 wfinal=w[cret];
 
+####### removing mean frequencies
+
+h=c("fBodyGyro-meanFreq()-X", "fBodyGyro-meanFreq()-Y"
+    ,"fBodyGyro-meanFreq()-Z"         
+    ,"fBodyAccMag-mean()"
+    ,"fBodyAccMag-meanFreq()"         
+    ,"fBodyBodyAccJerkMag-meanFreq()") ; ## Building a vector with the column we want to remove
+
+
+wfinal=wfinal[,!(names(wfinal) %in% h)]; ## Building the final dataset without the columns to be removed
+
+##### writing the tidy dataset into a csv file
+
+write.csv(wfinal,".//tidy_dataset.csv");
