@@ -1,14 +1,18 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
-# in R the function solve(X) returns the inverse of the matrix
+##  overall description of what the 
+## functions do: The functions computes the invers of a Matrix the first time it is called on a matrix and caches it.
+## the second time that the invers function is called, it will return the stored inverse without computing it.
+## 
+ 
+# In R the function solve(X) returns the inverse of the matrix
 #The function MakecaheMatrix take as an argument a matrix and:
 #1)through the function "set" it initializes the variable m to zero and store the inputed matrix to a variable x
-#2)through the function "get" return the initial variable x (it does not return the inversed matrix, just the original matrix)
+#2)through the function "get" return the initial variable x (it does not return the inversed matrix, just the original 
+#matrix)
 #3)through its function "setinverse", it computes the inverse of the inputed matrix and store it in the variable m
-#4)through its function "getinverse" , it returns the value of the variable m that contains the inversed matrix computed at step 3
-# 
+#4)through its function "getinverse" , it returns the value of the variable m that contains the inversed matrix 
+#computed at step 3
+# # this function is very similar to a class with public method, for these of you who are familliar with the 
+# Object oriented programing.
 
 makeCacheMatrix <- function(x = matrix()) {
    m <- NULL
@@ -27,8 +31,10 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## Write a short comment describing this function
 
-#The function cacheSolve take as an argument a matrix of the type created by the function makeMatrix above(a normal R matrix
+#The function cacheSolve take as an argument a matrix of the type created by the function makeMatrix above
+#(a normal R matrix
 #wont work with it)and:
+
 #1)When the matrix is entered the function get the value of the stored inversed matrix via the function "getinverse"
 # and store it into a local variable m.
 #2) It test if the element m is non empty (function !is.null()). 
