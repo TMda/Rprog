@@ -1,3 +1,6 @@
+## CODE BOOK
+
+
 The Tiny Dataset assignmnet
 
 The tiny dataset was produced from an orginal dataset that was measuring physical paramaters such as velocity and acceleration from samsung cellphones belonging to subject performing differents tasks such as walking, laying,etc.   
